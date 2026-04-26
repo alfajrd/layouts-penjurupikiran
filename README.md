@@ -28,7 +28,15 @@ free hand-coded HTML/CSS layouts for personal sites. each one is a single HTML f
 
 ## license
 
-[CC BY 4.0](./LICENSE) — use them however you want, including for commercial work. attribution is welcomed but not required.
+[CC BY 4.0](./LICENSE) — use them however you want, including for commercial work. **attribution + a linkback is required.**
+
+Somewhere visible on the site (footer is fine), include a line like:
+
+```html
+<a href="https://layouts.penjurupikiran.com">layout by penjuru pikiran</a>
+```
+
+That's it. No need to ask, no need to email — just keep the credit visible.
 
 ---
 
