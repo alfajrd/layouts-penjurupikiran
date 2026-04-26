@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>springtime wiki — a personal wiki template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..600&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* SPRINGTIME PALETTE — swapped in place of IndieWeb's orange-red accents */
+    --bg: #ffffff;
+    --bg-soft: #fcfaf7;
+    --bg-panel: #fbf8f4;
+
+    --text: #1f2220;
+    --text-muted: #5d635e;
+    --text-faint: #8c8f8a;
+
+    --rule: #e4e0d6;
+    --rule-soft: #eeeae0;
+
+    --link: #c05a7a;            /* cherry blossom rose (replaces indieweb red-orange) */
+    --link-hover: #a0405e;
+    --link-visited: #8a6cb0;    /* dusty lavender */
+    --link-new: #b89557;        /* warm olive — "red link" stand-in, but spring-toned */
+
+    --accent-bloom: #fbeef2;    /* pale pink panel bg */
+    --accent-bloom-border: #f3cfd9;
+    --accent-leaf: #e9f1e1;     /* pale mint panel bg */
+    --accent-leaf-border: #cfe0bf;
+    --accent-sun: #fbf1d0;      /* butter yellow panel bg */
+    --accent-sun-border: #eed89b;
+
+    --tag-bg: #eef4e7;
+    --tag-bg-alt: #f6e7ec;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+
+  /* ============ TOP BAR ============ */
+  .topbar {
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .topbar-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+  .brand svg { flex-shrink: 0; }
+
+  .topbar-nav {
+    margin-left: auto;
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    font-size: 13.5px;
+    flex-wrap: wrap;
+  }
+  .topbar-nav a { color: var(--text-muted); }
+  .topbar-nav a:hover { color: var(--link); }
+  .topbar-nav .sep { color: var(--text-faint); }
+
+  .searchbox {
+    display: flex; align-items: center; gap: 6px;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 4px 8px;
+    background: var(--bg-soft);
+  }
+  .searchbox input {
+    border: none; background: transparent;
+    outline: none;
+    font-family: inherit;
+    font-size: 13px;
+    width: 150px;
+    color: var(--text);
+  }
+  .searchbox input::placeholder { color: var(--text-faint); }
+
+  /* ============ LAYOUT ============ */
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 36px;
+  }
+  @media (max-width: 880px) {
+    .page { grid-template-columns: 1fr; padding: 20px 18px; gap: 24px; }
+    .sidebar { order: 2; border-top: 1px solid var(--rule); padding-top: 20px; }
+  }
+
+  /* ============ SIDEBAR ============ */
+  .sidebar { font-size: 13px; }
+  .sidebar-block { margin-bottom: 24px; }
+  .sidebar-block h4 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 0 0 8px 0;
+    padding-bottom: 4px;
+    border-bottom: 1px dotted var(--rule);
+  }
+  .sidebar-block ul { list-style: none; margin: 0; padding: 0; }
+  .sidebar-block li { margin-bottom: 5px; }
+
+  .tag-cloud a {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--text);
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin: 0 3px 4px 0;
+    font-size: 12.5px;
+  }
+  .tag-cloud a:hover { background: var(--accent-leaf-border); text-decoration: none; }
+  .tag-cloud a.big { font-size: 14px; font-weight: 500; }
+  .tag-cloud a.alt { background: var(--tag-bg-alt); }
+
+  /* ============ MAIN CONTENT ============ */
+  .content { min-width: 0; }
+
+  h1.firstHeading {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 400;
+    font-variation-settings: 'opsz' 144;
+    font-size: 42px;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    margin: 0 0 4px 0;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .tagline {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 17px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  .content h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: -0.01em;
+    margin: 36px 0 12px 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .content h3 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 18px;
+    margin: 22px 0 8px 0;
+  }
+  .content p { margin: 0 0 12px 0; }
+  .content ul { margin: 0 0 14px 0; padding-left: 22px; }
+  .content ul li { margin-bottom: 4px; }
+
+  .hatnote {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 16px;
+    padding-left: 12px;
+    border-left: 2px solid var(--rule);
+  }
+
+  /* Infobox */
+  .infobox {
+    float: right;
+    width: 280px;
+    margin: 0 0 16px 20px;
+    background: var(--accent-bloom);
+    border: 1px solid var(--accent-bloom-border);
+    border-radius: 4px;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  @media (max-width: 720px) { .infobox { float: none; width: auto; margin: 0 0 16px 0; } }
+  .infobox h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0 0 8px 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--accent-bloom-border);
+  }
+  .infobox dl { margin: 0; }
+  .infobox dt { font-weight: 600; color: var(--text); margin-top: 6px; }
+  .infobox dd { margin: 0; color: var(--text-muted); }
+
+  /* Principles */
+  .principles {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 0 16px 0 !important;
+    counter-reset: p;
+  }
+  .principles li {
+    counter-increment: p;
+    padding: 8px 0 8px 42px;
+    position: relative;
+    border-bottom: 1px dotted var(--rule);
+  }
+  .principles li:last-child { border-bottom: none; }
+  .principles li::before {
+    content: counter(p);
+    position: absolute;
+    left: 0; top: 8px;
+    width: 28px; height: 28px;
+    background: var(--accent-leaf);
+    border: 1px solid var(--accent-leaf-border);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .principles b {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+  /* Panels */
+  .panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .panel.leaf  { background: var(--accent-leaf);  border-color: var(--accent-leaf-border); }
+  .panel.bloom { background: var(--accent-bloom); border-color: var(--accent-bloom-border); }
+  .panel.sun   { background: var(--accent-sun);   border-color: var(--accent-sun-border); }
+  .panel h3 { margin-top: 0; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* Recent changes */
+  .changes { list-style: none; padding: 0; margin: 0; }
+  .changes li {
+    padding: 7px 0;
+    border-bottom: 1px dotted var(--rule);
+    font-size: 14px;
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .changes li:last-child { border-bottom: none; }
+  .changes .date {
+    font-variant-numeric: tabular-nums;
+    color: var(--text-faint);
+    font-size: 12.5px;
+    min-width: 54px;
+  }
+  .changes .kind {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 1px 6px;
+    border-radius: 2px;
+  }
+  .kind-new  { background: var(--accent-leaf);  color: #3d6233; }
+  .kind-edit { background: var(--accent-bloom); color: #8a3e56; }
+  .kind-stub { background: var(--accent-sun);   color: #7a601d; }
+
+  .stub-notice {
+    background: var(--accent-sun);
+    border: 1px solid var(--accent-sun-border);
+    border-left: 4px solid var(--accent-sun-border);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 13.5px;
+    color: var(--text-muted);
+    margin: 16px 0;
+  }
+  .stub-notice b { color: var(--text); }
+
+  .catlinks {
+    margin-top: 20px;
+    padding: 10px 14px;
+    background: var(--bg-soft);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .catlinks b { color: var(--text); }
+  .catlinks a { margin: 0 4px; }
+
+  footer {
+    max-width: 1180px;
+    margin: 40px auto 0;
+    padding: 20px 24px 40px;
+    border-top: 1px solid var(--rule);
+    font-size: 12.5px;
+    color: var(--text-faint);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: space-between;
+  }
+  footer a { color: var(--text-muted); }
+  footer a:hover { color: var(--link); }
+
+  .sprig { display: inline-block; vertical-align: middle; margin-right: 2px; }
+
+  .toc {
+    display: inline-block;
+    background: var(--bg-soft);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 10px 16px 10px 14px;
+    margin: 12px 0 20px 0;
+    font-size: 13.5px;
+  }
+  .toc .toc-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .toc ol { margin: 0; padding-left: 24px; }
+  .toc ol li { padding: 1px 0; }
+</style>
+</head>
+<body>
+
+<div style="background:#fbeef2;border-bottom:1px solid #f3cfd9;font-family:'Fraunces',Georgia,serif;font-size:13px;color:#5d635e;padding:7px 0;overflow:hidden;">
+  <marquee behavior="scroll" direction="left" scrollamount="4">✿ like this layout? to purchase it, head to my <a href="https://ko-fi.com/s/4e9f4883d9" target="_blank" style="color:#c05a7a;text-decoration:underline;font-weight:500;">ko-fi shop →</a></marquee>
+</div>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <svg class="sprig" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 21 C 12 14, 12 9, 12 4" stroke="#7a9c6a" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <path d="M12 12 C 9 11, 7 9, 7 7 C 10 7, 12 9, 12 12" fill="#b6d3a3" stroke="#7a9c6a" stroke-width="1.2"/>
+        <path d="M12 9 C 15 8.5, 17 6.5, 17 4.5 C 14 4.5, 12 6.5, 12 9" fill="#b6d3a3" stroke="#7a9c6a" stroke-width="1.2"/>
+        <circle cx="12" cy="4" r="2.5" fill="#f4c3d1" stroke="#c05a7a" stroke-width="1.2"/>
+        <circle cx="12" cy="4" r="0.8" fill="#f6d96a"/>
+      </svg>
+      springtime wiki
+    </div>
+    <nav class="topbar-nav" aria-label="Primary">
+      <a href="#">home</a>
+      <a href="#">recent changes</a>
+      <a href="#">random page</a>
+      <a href="#">about</a>
+      <span class="sep">·</span>
+      <a href="#">log in</a>
+      <label class="searchbox">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8c8f8a" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="search" placeholder="search springtime wiki">
+      </label>
+    </nav>
+  </div>
+</header>
+
+<div class="page">
+
+  <aside class="sidebar">
+    <div class="sidebar-block">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="#">Main page</a></li>
+        <li><a href="#">Principles</a></li>
+        <li><a href="#">Getting started</a></li>
+        <li><a href="#">All pages</a></li>
+        <li><a href="#">Random page</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-block">
+      <h4>Tend</h4>
+      <ul>
+        <li><a href="#">Recent changes</a></li>
+        <li><a href="#">New pages</a></li>
+        <li><a href="#" class="new">Stubs (24)</a></li>
+        <li><a href="#">Orphan pages</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-block">
+      <h4>Tools</h4>
+      <ul>
+        <li><a href="#">What links here</a></li>
+        <li><a href="#">Page history</a></li>
+        <li><a href="#">Export</a></li>
+        <li><a href="#">RSS feed</a></li>
+      </ul>
+    </div>
+    <div class="sidebar-block tag-cloud">
+      <h4>Popular tags</h4>
+      <a href="#" class="big">notes</a>
+      <a href="#" class="alt">reading</a>
+      <a href="#" class="big alt">projects</a>
+      <a href="#">walking</a>
+      <a href="#" class="alt">cooking</a>
+      <a href="#">essays</a>
+      <a href="#" class="alt big">people</a>
+      <a href="#">places</a>
+      <a href="#" class="alt">seeds</a>
+      <a href="#">quotes</a>
+    </div>
+  </aside>
+
+  <main class="content">
+
+    <h1 class="firstHeading">springtime wiki</h1>
+    <p class="tagline">a small, slow, personal wiki — a garden of pages tended over time.</p>
+
+    <aside class="infobox" aria-label="At a glance">
+      <h4>at a glance</h4>
+      <dl>
+        <dt>Started</dt><dd>March 2024</dd>
+        <dt>Pages</dt><dd>214 (24 stubs)</dd>
+        <dt>Last edited</dt><dd>today</dd>
+        <dt>License</dt><dd>CC BY-SA 4.0</dd>
+        <dt>Hosted at</dt><dd>your own domain</dd>
+      </dl>
+    </aside>
+
+    <p class="hatnote">Welcome to <b>springtime wiki</b> — a template for a personal, single-author wiki. Every page here is an invitation to plant, tend, and revisit. Everything is editable; nothing is ever finished.</p>
+
+    <p>This wiki is a human-centered alternative to the stream. It is a garden of pages, connected by internal links and open standards, based on the principles of owning your own <a href="#">domain</a> and using it as your primary identity, publishing on your own <a href="#">site</a> first, and owning your <a href="#">content</a>. When you write something on the web, it should belong to you, not to a platform.</p>
+
+    <p>Pages here are for <a href="#">notes</a>, <a href="#">projects</a>, <a href="#">reading logs</a>, <a href="#">essays in progress</a>, <a href="#" class="new">recipes worth keeping</a>, <a href="#">people you've met</a>, and anything else that benefits from being written down and linked together. Short pages are fine. <a href="#">Stubs</a> are welcome. Red links are invitations.</p>
+
+    <div class="toc" role="navigation" aria-label="Contents">
+      <div class="toc-title">Contents</div>
+      <ol>
+        <li><a href="#principles">Principles</a></li>
+        <li><a href="#getting-started">Getting started</a></li>
+        <li><a href="#recent">Recently tended</a></li>
+        <li><a href="#beds">Garden beds</a></li>
+        <li><a href="#example">Example page</a></li>
+        <li><a href="#community">In other gardens</a></li>
+      </ol>
+    </div>
+
+    <h2 id="principles">Principles</h2>
+    <p>A few house rules for how this wiki is kept. Borrowed, adapted, and pruned from the IndieWeb community.</p>
+    <ol class="principles">
+      <li><b>Own your words.</b> Pages live on a domain you control. If a platform shuts down, the garden doesn't.</li>
+      <li><b>Write messy, revise later.</b> The first version of a page is allowed to be rough. That's what <a href="#">page history</a> is for.</li>
+      <li><b>Link generously.</b> Every page wants neighbours. A wiki without internal links is a plot with no paths.</li>
+      <li><b>Stubs are allowed.</b> A three-sentence page is still a page. <a href="#" class="new">Red links</a> are invitations to write, not failures.</li>
+      <li><b>Slow over fast.</b> No comments, no feeds chasing attention. A long walk, not a timeline scroll.</li>
+      <li><b>Compost the old.</b> Revise without guilt. Old revisions rest in the history; the top of the page is always free to change.</li>
+    </ol>
+
+    <h2 id="getting-started">Getting started</h2>
+    <p>If you're forking this template, the first pages worth planting are usually:</p>
+    <div class="panel leaf">
+      <div class="two-col">
+        <div>
+          <h3 style="margin-top:0">To plant first</h3>
+          <ul>
+            <li><a href="#">About</a> — who you are and why this wiki exists</li>
+            <li><a href="#">Now</a> — what you're focused on this season</li>
+            <li><a href="#">Colophon</a> — how this wiki is built</li>
+            <li><a href="#" class="new">Reading list</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="margin-top:0">Good habits</h3>
+          <ul>
+            <li>Link out from every new page to at least one other</li>
+            <li>Tag pages as you go — tags are free</li>
+            <li>Keep a <a href="#">changelog</a> page; it ages well</li>
+            <li>Don't delete — archive or rewrite instead</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="recent">Recently tended</h2>
+    <p>Pages edited in the last fortnight. See also: <a href="#">full recent changes</a> · <a href="#">RSS feed</a>.</p>
+    <ul class="changes">
+      <li>
+        <span class="date">Apr 18</span>
+        <span class="kind kind-edit">edit</span>
+        <a href="#">On keeping a commonplace book</a>
+        <span style="color:var(--text-muted)">— untangled the note-taking system</span>
+      </li>
+      <li>
+        <span class="date">Apr 14</span>
+        <span class="kind kind-edit">edit</span>
+        <a href="#">Sourdough log</a>
+        <span style="color:var(--text-muted)">— loaf #37, hydration notes</span>
+      </li>
+      <li>
+        <span class="date">Apr 11</span>
+        <span class="kind kind-new">new</span>
+        <a href="#">Things I learned from my grandmother</a>
+      </li>
+      <li>
+        <span class="date">Apr 07</span>
+        <span class="kind kind-stub">stub</span>
+        <a href="#" class="new">Tiny essays on walking</a>
+        <span style="color:var(--text-muted)">— started, barely a paragraph</span>
+      </li>
+      <li>
+        <span class="date">Apr 03</span>
+        <span class="kind kind-edit">edit</span>
+        <a href="#">Reading notes: A Pattern Language</a>
+        <span style="color:var(--text-muted)">— reorganised by pattern number</span>
+      </li>
+      <li>
+        <span class="date">Mar 30</span>
+        <span class="kind kind-new">new</span>
+        <a href="#">Letters I haven't sent</a>
+      </li>
+    </ul>
+
+    <h2 id="beds">Garden beds</h2>
+    <p>Pages on this wiki are loosely sorted into the following <a href="#">categories</a>. You can also browse by <a href="#">tag</a>, by <a href="#">date</a>, or by <a href="#">last edited</a>.</p>
+    <div class="two-col">
+      <div class="panel">
+        <h3>Notes &amp; essays</h3>
+        <ul>
+          <li><a href="#">Reading notes</a> — 38 pages</li>
+          <li><a href="#">Commonplace book</a> — 62 pages</li>
+          <li><a href="#">Essays in progress</a> — 11 pages</li>
+          <li><a href="#">Quotes worth keeping</a> — 9 pages</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Making &amp; doing</h3>
+        <ul>
+          <li><a href="#">Projects</a> — 14 pages</li>
+          <li><a href="#">Kitchen log</a> — 27 pages</li>
+          <li><a href="#">Code experiments</a> — 18 pages</li>
+          <li><a href="#" class="new">Workshop notes</a></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>People &amp; places</h3>
+        <ul>
+          <li><a href="#">People I've met</a> — 22 pages</li>
+          <li><a href="#">Neighbourhood walks</a> — 8 pages</li>
+          <li><a href="#">Letters</a> — 5 pages</li>
+          <li><a href="#" class="new">Travel log</a></li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>Maintenance</h3>
+        <ul>
+          <li><a href="#">Changelog</a></li>
+          <li><a href="#">To-do</a> — 19 open</li>
+          <li><a href="#" class="new">Stubs to expand</a> — 24</li>
+          <li><a href="#">Orphan pages</a> — 3</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 id="example">Example page</h2>
+    <p>Here's what a typical wiki page looks like, so you can see the layout conventions at work.</p>
+    <div class="panel bloom">
+      <div class="hatnote" style="margin-bottom:12px; border-left-color: var(--accent-bloom-border);">
+        From <a href="#">springtime wiki</a> · last edited 3 days ago · <a href="#">history</a> · <a href="#">edit</a>
+      </div>
+      <h3 style="font-size: 22px; margin-top:0;">On keeping a commonplace book</h3>
+
+      <div class="stub-notice">
+        <b>This page is growing.</b> Started in March 2024, rewritten twice. If you have thoughts, they belong on your own wiki — please <a href="#">link back</a> and I'll find them.
+      </div>
+
+      <p>A <b>commonplace book</b> is a personal collection of things worth keeping — passages, ideas, recipes, scraps of overheard conversation. It is older than the printed book itself, and it has survived every technology shift since, because the underlying need is human: we read and hear more than we can remember, and writing it down lets us find it again.</p>
+      <p>My commonplace book lives here on this wiki, split across <a href="#">quotes</a>, <a href="#">reading notes</a>, and <a href="#" class="new">marginalia</a>. The trick, I've found, is to <i>rewrite</i> rather than <i>copy</i> — the act of rephrasing is what makes something yours.</p>
+
+      <div class="catlinks">
+        <b>Categories:</b>
+        <a href="#">Essays</a> ·
+        <a href="#">Notes</a> ·
+        <a href="#">Reading</a> ·
+        <a href="#">Practice</a>
+      </div>
+    </div>
+
+    <h2 id="community">In other gardens</h2>
+    <p>Personal wikis and digital gardens are a tradition, not an invention. A few neighbours worth visiting:</p>
+    <ul>
+      <li><a href="#">Maggie Appleton's garden</a> — patterns for digital gardens</li>
+      <li><a href="#">Andy Matuschak's notes</a> — public evergreen notes</li>
+      <li><a href="#">Tom Critchlow's wiki</a> — one of the earliest personal wikis in this tradition</li>
+      <li><a href="#">The IndieWeb wiki</a> — community, principles, building blocks</li>
+    </ul>
+
+    <p class="hatnote" style="margin-top:20px;">If you keep a public wiki, <a href="#">let me know</a> — I'll add you here.</p>
+
+  </main>
+</div>
+
+<footer>
+  <div>
+    <svg class="sprig" width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="5" fill="#f4c3d1" stroke="#c05a7a" stroke-width="1.2"/>
+      <circle cx="12" cy="12" r="1.5" fill="#f6d96a"/>
+    </svg>
+    Content on springtime wiki is available under <a href="#">CC BY-SA 4.0</a> unless otherwise noted.
+  </div>
+  <div>
+    <a href="#">colophon</a> · <a href="#">privacy</a> · <a href="#">rss</a> · <a href="#">atom</a> · built by hand, tended slowly
+  </div>
+  <div style="flex-basis:100%; text-align:center; padding-top:6px; border-top:1px dotted var(--rule); margin-top:4px;">
+    made by <b style="color:var(--text-muted); font-family:'Fraunces',serif; font-weight:500;">penjurupikiran</b>
+  </div>
+</footer>
+
+</body>
+</html>
