@@ -4,7 +4,7 @@ a small, slow, personal wiki — a garden of pages tended over time. left-rail n
 
 ![springtime wiki preview](./preview.png)
 
-**[view live →](https://penjurupikiran.com/portfolio/springtime-wiki.html)**
+**[view live →](https://demos.penjurupikiran.com/springtime-wiki/)**
 
 ---
 

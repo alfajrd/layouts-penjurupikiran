@@ -10,7 +10,7 @@ free hand-coded HTML/CSS layouts for personal sites. each one is a single HTML f
 
 | layout | description | live | source |
 |---|---|---|---|
-| **springtime-wiki** | a small, slow, personal wiki — a garden of pages tended over time | [view](https://penjurupikiran.com/portfolio/springtime-wiki.html) | [/springtime-wiki](./springtime-wiki/) |
+| **springtime-wiki** | a small, slow, personal wiki — a garden of pages tended over time | [view](https://demos.penjurupikiran.com/springtime-wiki/) | [/springtime-wiki](./springtime-wiki/) |
 
 ---
 
