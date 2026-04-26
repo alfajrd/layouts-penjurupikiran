@@ -33,7 +33,7 @@ free hand-coded HTML/CSS layouts for personal sites. each one is a single HTML f
 Somewhere visible on the site (footer is fine), include a line like:
 
 ```html
-<a href="https://layouts.penjurupikiran.com">layout by penjuru pikiran</a>
+<a href="https://penjurupikiran.com">layout by penjuru pikiran</a>
 ```
 
 That's it. No need to ask, no need to email — just keep the credit visible.

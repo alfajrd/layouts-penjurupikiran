@@ -42,5 +42,5 @@ it's a static layout, not a wiki engine — so each page is its own HTML file. t
 [CC BY 4.0](../LICENSE) — **attribution + linkback required.** Drop this somewhere visible on your site (footer is fine):
 
 ```html
-<a href="https://layouts.penjurupikiran.com">layout by penjuru pikiran</a>
+<a href="https://penjurupikiran.com">layout by penjuru pikiran</a>
 ```
