@@ -1,6 +1,6 @@
 # risogram
 
-a portfolio layout with a fixed left-rail of four illustrated tiles in a riso-print palette — plum, peach, mustard, mint. each tile is a section (Studio, Work, Play, Hello) and carries its own hand-drawn SVG icon. main content scrolls to the right of the rail. responsive: in portrait / on mobile the rail collapses to a horizontal strip across the top.
+a dark-mode portfolio layout with a fixed left-rail of four illustrated tiles in a riso-print palette — plum, peach, mustard, mint — pulled against deep midnight navy. each tile is a section (Studio, Work, Play, Hello) and carries its own hand-drawn SVG icon. main content scrolls to the right of the rail. responsive: in portrait / on mobile the rail collapses to a horizontal strip across the top. designed to feel like a darkroom with prints clipped to the wall.
 
 **[view live →](https://demos.penjurupikiran.com/risogram/)**
 
