@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>broadsheet — esther w.</title>
+<meta name="description" content="The personal site of Esther Wadsworth, essayist and design critic. Built on the broadsheet layout: warm parchment, deep ink, big serif display.">
+<style>
+  /* BROADSHEET — a personal-site layout in the masthead-and-marquee mode.
+   *
+   * Designed for a writer or critic: large multi-line serif title up top,
+   * a quiet "callout" strip above the masthead for an opinion or quote,
+   * a marquee strip with time/place/listening below the hero, and a two-
+   * group nav of "writing" and "meta" sections below that.
+   *
+   * Three working colors:
+   *   --paper    warm parchment page
+   *   --ink      deep brown-black for body + display
+   *   --accent   bold rust for links + decorative bits
+   *
+   * One inverse strip: the top callout is dark ink with parchment text.
+   *
+   * No web fonts — system serif (Georgia stack) for display and body,
+   * system sans for nav meta-labels and the marquee.
+   */
+  :root {
+    --paper:        #fbf3df;   /* warm parchment */
+    --paper-dim:    #f0e7c8;   /* slightly deeper for chrome */
+    --ink:          #1f1a14;   /* deep brown-black for display + body */
+    --ink-soft:     #6b6052;   /* muted warm gray for meta lines */
+    --rule:         #c2b594;   /* dusty hairline */
+    --accent:       #b34630;   /* rust — for links + the masthead star + accent text */
+    --accent-deep:  #862e1c;   /* darker rust for hover */
+    --accent-soft:  #f0d8cf;   /* pale rust wash for hover bg */
+    --jade:         #4a6a5c;   /* deep jade — secondary accent */
+    --serif:        Georgia, 'Iowan Old Style', 'Charter', Cambria, 'Times New Roman', serif;
+    --sans:         -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Avenir Next', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { height: 100%; -webkit-font-smoothing: antialiased; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.55;
+  }
+
+  /* ─── callout strip (the dark band up top) ─────────── */
+  .callout {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 24px;
+    text-align: center;
+    border-bottom: 1px solid var(--accent);
+  }
+  .callout p {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 15px;
+    font-style: italic;
+    line-height: 1.45;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .callout em {
+    font-style: normal;
+    color: var(--accent-soft);
+    font-weight: 600;
+  }
+
+  /* ─── page-nav (brand on left, tagline center, back-link right) ─ */
+  .page-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--sans);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+  .page-nav__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .page-nav__brand .star {
+    color: var(--accent);
+    font-size: 16px;
+    line-height: 1;
+  }
+  .page-nav__brand .vol {
+    color: var(--ink-soft);
+    font-style: italic;
+    font-family: var(--serif);
+    margin-left: 6px;
+  }
+  .page-nav__tagline {
+    color: var(--ink-soft);
+    font-family: var(--serif);
+    font-style: italic;
+    margin: 0;
+    font-size: 14px;
+    text-align: center;
+    flex: 1;
+    padding: 0 24px;
+  }
+  .page-nav__tagline span {
+    color: var(--ink);
+    font-style: normal;
+    font-weight: 500;
+  }
+  .page-nav__back {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 3px;
+  }
+
+  /* ─── hero ─────────────────────────────────────────── */
+  .hero {
+    padding: 64px 32px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 56px;
+    align-items: end;
+  }
+  .hero__title {
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(56px, 9vw, 124px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .hero__title .seg {
+    display: block;
+  }
+  .hero__title .seg--two {
+    margin-left: 0.6em;
+    color: var(--accent);
+    font-style: italic;
+  }
+  .hero__title .seg--three {
+    margin-left: 1.2em;
+  }
+  .hero__description {
+    margin: 28px 0 0 0;
+    max-width: 540px;
+    font-size: 19px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .hero__warning {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 6px 12px;
+    background: var(--paper-dim);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+  }
+  /* hero ornament — illuminated capital, all CSS, no SVG to lift */
+  .hero__ornament {
+    width: 280px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 12px 32px rgba(31, 26, 20, 0.18);
+  }
+  .hero__ornament::before {
+    /* the illuminated capital */
+    content: "E";
+    font-family: var(--serif);
+    font-size: 200px;
+    font-weight: 400;
+    line-height: 0.85;
+    color: var(--paper);
+  }
+  .hero__ornament::after {
+    /* small rust star above */
+    content: "✷";
+    position: absolute;
+    top: 18px;
+    right: 28px;
+    color: var(--accent);
+    font-size: 22px;
+  }
+
+  /* ─── marquee strip ───────────────────────────────── */
+  .marquee {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    background: var(--paper-dim);
+    padding: 10px 24px;
+    overflow: hidden;
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+  }
+  .marquee__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .marquee__sep { color: var(--rule); }
+  .marquee__pulse {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 6px;
+    vertical-align: 1px;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.3); }
+  }
+  .marquee a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 0.5px dotted var(--ink-soft);
+  }
+
+  /* ─── home nav (two grouped lists) ─────────────────── */
+  .home-nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 64px 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+  }
+  .home-nav__group-title {
+    font-family: var(--sans);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-soft);
+    margin: 0 0 14px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .home-nav__list {
+    list-style: none;
+    margin: 0 0 32px 0;
+    padding: 0;
+  }
+  .home-nav__list li { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+  .home-nav__list li:last-child { border-bottom: 0; }
+  .home-nav__link {
+    display: block;
+    color: var(--ink);
+    text-decoration: none;
+    line-height: 1.4;
+  }
+  .home-nav__link-title {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    transition: color 100ms ease;
+  }
+  .home-nav__link-desc {
+    display: block;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+  .home-nav__link:hover .home-nav__link-title {
+    color: var(--accent);
+  }
+
+  /* ─── featured section (themed dark) ───────────────── */
+  .featured {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 80px 32px;
+    border-top: 1px solid var(--accent);
+  }
+  .featured__inner {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .featured__label {
+    font-family: var(--sans);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent-soft);
+    margin: 0 0 16px 0;
+  }
+  .featured__quote {
+    font-family: var(--serif);
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1.2;
+    margin: 0 0 28px 0;
+    font-weight: 400;
+  }
+  .featured__quote em {
+    color: var(--accent-soft);
+    font-style: italic;
+  }
+  .featured__attribution {
+    font-family: var(--serif);
+    font-style: italic;
+    color: rgba(251, 243, 223, 0.7);
+    font-size: 16px;
+  }
+  .featured__attribution a {
+    color: var(--paper);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 3px;
+  }
+
+  /* ─── footer ──────────────────────────────────────── */
+  footer {
+    padding: 32px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+  }
+  footer a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 3px;
+  }
+
+  /* ─── mobile ───────────────────────────────────────── */
+  @media (max-width: 760px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 48px 22px 32px;
+    }
+    .hero__ornament {
+      width: 200px;
+      justify-self: start;
+    }
+    .hero__ornament::before { font-size: 144px; }
+    .home-nav {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 48px 22px;
+    }
+    .page-nav {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+      padding: 16px 22px;
+    }
+    .page-nav__tagline {
+      text-align: left;
+      padding: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__pulse { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─── callout strip ───────────────────────────────── -->
+<aside class="callout">
+  <p>Long live the slow web. <em>Build a site, not a feed.</em></p>
+</aside>
+
+<!-- ─── page nav ────────────────────────────────────── -->
+<nav class="page-nav">
+  <a href="/" class="page-nav__brand">
+    <span class="star">✷</span>
+    esther w.
+    <span class="vol">— vol. iii</span>
+  </a>
+  <p class="page-nav__tagline">(the personal broadsheet of <span>Esther Wadsworth</span>, essayist)</p>
+  <a href="/index" class="page-nav__back">index →</a>
+</nav>
+
+<!-- ─── hero ────────────────────────────────────────── -->
+<section class="hero">
+  <hgroup>
+    <h1 class="hero__title">
+      <span class="seg seg--one">Notes from</span>
+      <span class="seg seg--two">a long</span>
+      <span class="seg seg--three">paper trail.</span>
+    </h1>
+    <p class="hero__description">A small broadsheet of essays, marginalia, and design criticism by Esther Wadsworth — written slowly, edited slower, published when ready.</p>
+    <span class="hero__warning">read with patience</span>
+  </hgroup>
+  <div class="hero__ornament" aria-hidden="true"></div>
+</section>
+
+<!-- ─── marquee ─────────────────────────────────────── -->
+<div class="marquee">
+  <div class="marquee__inner">
+    <span><span class="marquee__pulse"></span>writing now</span>
+    <span class="marquee__sep">·</span>
+    <span>43° N, 5° E (a small town)</span>
+    <span class="marquee__sep">·</span>
+    <span>vol. iii / no. 14</span>
+    <span class="marquee__sep">·</span>
+    <span>currently re-reading <em>Middlemarch</em></span>
+    <span class="marquee__sep">·</span>
+    <span><a href="/feed.xml">subscribe by rss</a></span>
+  </div>
+</div>
+
+<!-- ─── home nav (two columns) ──────────────────────── -->
+<section class="home-nav">
+  <div>
+    <p class="home-nav__group-title">Library</p>
+    <ul class="home-nav__list">
+      <li>
+        <a href="/essays" class="home-nav__link">
+          <span class="home-nav__link-title">Essays</span>
+          <span class="home-nav__link-desc">— long pieces, edited carefully, published once a month at most</span>
+        </a>
+      </li>
+      <li>
+        <a href="/marginalia" class="home-nav__link">
+          <span class="home-nav__link-title">Marginalia</span>
+          <span class="home-nav__link-desc">— fragments, lines half-remembered, things underlined in books</span>
+        </a>
+      </li>
+      <li>
+        <a href="/reviews" class="home-nav__link">
+          <span class="home-nav__link-title">Reviews</span>
+          <span class="home-nav__link-desc">— short notices on books, films, and the occasional small museum show</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div>
+    <p class="home-nav__group-title">Meta</p>
+    <ul class="home-nav__list">
+      <li>
+        <a href="/about" class="home-nav__link">
+          <span class="home-nav__link-title">About</span>
+          <span class="home-nav__link-desc">— a biography in three short paragraphs and a portrait</span>
+        </a>
+      </li>
+      <li>
+        <a href="/now" class="home-nav__link">
+          <span class="home-nav__link-title">Now</span>
+          <span class="home-nav__link-desc">— what i'm focused on this season; updated when it changes</span>
+        </a>
+      </li>
+      <li>
+        <a href="/colophon" class="home-nav__link">
+          <span class="home-nav__link-title">Colophon</span>
+          <span class="home-nav__link-desc">— how this site is made; tools, fonts, and credits</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ─── featured (themed dark) ──────────────────────── -->
+<section class="featured">
+  <div class="featured__inner">
+    <p class="featured__label">From the latest essay</p>
+    <p class="featured__quote">
+      The shape of a year shows up in <em>what you save</em>, not in what you publish. The site is the saved part.
+    </p>
+    <p class="featured__attribution">— Esther W., <a href="/essays/the-shape-of-a-year/">"The Shape of a Year"</a></p>
+  </div>
+</section>
+
+<!-- ─── footer ──────────────────────────────────────── -->
+<footer>
+  © esther wadsworth · <a href="/colophon">colophon</a> · <a href="/feed.xml">feed</a> · <a href="https://penjurupikiran.com">layout by penjuru pikiran</a>
+</footer>
+
+</body>
+</html>
