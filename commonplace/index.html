@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>commonplace — a small notebook on the open web</title>
+<meta name="description" content="A two-column personal-site template in the spirit of the open web — fixed width, warm cream paper, terracotta sidebar, system-serif body. For commonplace books, link logs, and slow notes.">
+<style>
+  /* COMMONPLACE — a small notebook on the open web
+   * fixed-width two-column page in the late-90s/early-2000s personal-site mode,
+   * but warmer: cream paper, brown ink, terracotta sidebar.
+   *
+   * Three working colors:
+   *   --ink       warm dark brown — body text, headings, links
+   *   --bar       tan strip — top nav
+   *   --plot      terracotta block — sidebar
+   *
+   * No web fonts. System serif body, system sans for nav/labels.
+   * Sized to feel right at 1024×768 — a virtue, not a constraint.
+   * Resize narrower and you get a horizontal scrollbar — that's on-brand
+   * for the era this is referencing. If you want fluid-width, change
+   * `width: 980px` to a max-width and drop the explicit pixel widths
+   * on #maincont and #auxcont.
+   */
+  :root {
+    --paper:       #f5ecd6;   /* warm cream, the page itself */
+    --paper-dim:   #ede2c4;   /* slightly darker chrome behind the page */
+    --ink:         #2a1f12;   /* dark warm brown — body text */
+    --ink-soft:    #6b5a3e;   /* muted brown for meta lines */
+    --rule:        #b9a984;   /* dusty hairline */
+    --bar:         #ddd0a8;   /* nav strip */
+    --bar-edge:    #a89668;   /* nav border */
+    --plot:        #c87850;   /* terracotta sidebar */
+    --plot-edge:   #9c5a3a;   /* sidebar border */
+    --plot-soft:   #ebd6c5;   /* hover wash */
+    --quote:       #f0e3c0;   /* blockquote bg */
+    --moss:        #6b7a3e;   /* small accent for date stamps + bullets */
+  }
+
+  * { box-sizing: border-box; }
+  html { height: 100%; }
+  body {
+    margin: 0 auto 11px auto;
+    padding: 0 0 11px 0;
+    background: var(--paper-dim);
+    color: var(--ink);
+    font-family: Georgia, 'Charter', Cambria, 'Times New Roman', serif;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  /* ─── header ───────────────────────────────────────── */
+  header {
+    width: 980px;
+    margin: 0 auto;
+    padding: 22px 30px 14px 30px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+  }
+  header h1 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: -0.4px;
+  }
+  header h1 a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  header .tagline {
+    margin: 3px 0 0 0;
+    font-size: 14px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  /* ─── nav (tab-style strip) ────────────────────────── */
+  #menubar {
+    width: 980px;
+    margin: 0 auto;
+    padding: 6px 30px 0 30px;
+    background: var(--bar);
+    border-bottom: 1px solid var(--bar-edge);
+    height: 32px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  #menubar ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  #menubar li {
+    display: inline;
+  }
+  #menubar a {
+    display: inline-block;
+    padding: 7px 11px 8px 11px;
+    border-right: 1px solid var(--bar);
+    border-left: 1px solid var(--bar);
+    background: var(--bar);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+  #menubar a:hover,
+  #menubar a:focus {
+    background: var(--plot-soft);
+    border-right: 1px solid var(--bar-edge);
+    border-left: 1px solid var(--bar-edge);
+  }
+  #menubar a.selected {
+    background: var(--paper);
+    border-right: 1px solid var(--bar-edge);
+    border-left: 1px solid var(--bar-edge);
+    border-bottom: 6px solid var(--paper);
+    margin-bottom: -1px;
+    font-weight: 600;
+  }
+
+  /* ─── frame: holds main + sidebar columns ──────────── */
+  #frame {
+    width: 980px;
+    margin: 0 auto;
+    background: var(--paper);
+    overflow: hidden;
+  }
+
+  /* main column */
+  #maincont {
+    float: left;
+    width: 620px;
+    margin: 18px 0 18px 18px;
+    padding: 0 8px 0 8px;
+  }
+  #maincont h1 {
+    font-size: 26px;
+    font-weight: 600;
+    margin: 0 0 6px 0;
+    letter-spacing: -0.3px;
+  }
+  #maincont h2 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 32px 0 10px 0;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--rule);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-soft);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  #maincont h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 20px 0 6px 0;
+    color: var(--ink);
+  }
+  #maincont p {
+    margin: 0 0 14px 0;
+  }
+  #maincont ul,
+  #maincont ol {
+    margin: 0 0 16px 1.4em;
+    padding: 0;
+  }
+  #maincont li {
+    margin-bottom: 4px;
+  }
+  #maincont a {
+    color: var(--plot-edge);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 2px;
+  }
+  #maincont a:hover {
+    background: var(--plot-soft);
+    text-decoration: none;
+  }
+  #maincont blockquote {
+    margin: 4px 18px 18px 12px;
+    padding: 10px 14px;
+    background: var(--quote);
+    line-height: 1.4;
+    font-style: italic;
+    border-left: 3px solid var(--bar-edge);
+  }
+  #maincont .meta {
+    color: var(--moss);
+    font-size: 12px;
+    margin: -6px 0 18px 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    letter-spacing: 0.04em;
+  }
+  #maincont section + section {
+    margin-top: 32px;
+  }
+
+  /* ─── two-column variant inside the main column ────── */
+  .twocol {
+    overflow: hidden;
+    margin-top: 8px;
+  }
+  .twocol .col {
+    float: left;
+    width: 295px;
+  }
+  .twocol .col + .col {
+    margin-left: 25px;
+  }
+  .twocol .col h2 {
+    margin-top: 0;
+  }
+
+  /* ─── sidebar ──────────────────────────────────────── */
+  #auxcont {
+    float: right;
+    width: 280px;
+    margin: 18px 18px 18px 0;
+    padding: 14px 16px 16px 16px;
+    background: var(--plot);
+    border: 1px solid var(--plot-edge);
+    border-radius: 3px;
+    color: var(--paper);
+  }
+  #auxcont h2 {
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--paper);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  }
+  #auxcont h2:not(:first-child) {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(245, 236, 214, 0.3);
+  }
+  #auxcont p,
+  #auxcont ul {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  #auxcont ul {
+    list-style: none;
+    padding: 0;
+  }
+  #auxcont li {
+    margin: 3px 0;
+    padding-left: 14px;
+    text-indent: -14px;
+  }
+  #auxcont li::before {
+    content: "› ";
+    color: rgba(245, 236, 214, 0.75);
+  }
+  #auxcont a {
+    color: var(--paper);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 2px;
+  }
+  #auxcont a:hover {
+    background: rgba(245, 236, 214, 0.18);
+  }
+  #auxcont .stamp {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(245, 236, 214, 0.3);
+    font-size: 11px;
+    color: rgba(245, 236, 214, 0.85);
+    line-height: 1.45;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    letter-spacing: 0.02em;
+  }
+
+  /* ─── footer ───────────────────────────────────────── */
+  footer {
+    width: 980px;
+    margin: 0 auto;
+    padding: 16px 30px;
+    background: var(--paper);
+    border-top: 1px solid var(--rule);
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-align: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    letter-spacing: 0.04em;
+  }
+  footer a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 2px;
+  }
+
+  @media (max-width: 980px) {
+    body { overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><a href="/">your common place</a></h1>
+  <p class="tagline">a small notebook kept on the open web, tended slowly.</p>
+</header>
+
+<nav id="menubar">
+  <ul>
+    <li><a href="/" class="selected" accesskey="1">Home</a></li>
+    <li><a href="/notes/">Notes</a></li>
+    <li><a href="/links/">Links</a></li>
+    <li><a href="/photos/">Photos</a></li>
+    <li><a href="/essays/">Essays</a></li>
+    <li><a href="/about/">About</a></li>
+    <li><a href="/feed.xml">Feed</a></li>
+    <li><a href="mailto:you@yourdomain.tld" accesskey="9">Contact</a></li>
+  </ul>
+</nav>
+
+<div id="frame">
+
+  <!-- ─── main column ─────────────────────────────────── -->
+  <div id="maincont">
+
+    <h1>A page tended slowly.</h1>
+    <p class="meta">last tended · 2026-05-13</p>
+
+    <p>A <em>commonplace book</em> is a personal notebook in which someone
+       collects passages, observations, definitions, recipes, drawings,
+       diagrams, and any other small thing worth keeping. The form is
+       roughly five hundred years old and was, for a long time, how
+       thinking people thought. This site is one of those, kept on the
+       open web instead of in leather and thread.</p>
+
+    <p>The shape is intentional. A fixed-width page, a pinned column on
+       the right for what's current, a slow log in the middle for what's
+       been added. No infinite scroll, no algorithmic feed, no analytics.
+       If you've landed here, you probably typed the URL.</p>
+
+    <section>
+      <h2>Lately</h2>
+      <p>A small chronological log of what's been added. Each entry is a
+         date and one line — the shape matters more than any one item.</p>
+      <ul>
+        <li><strong>2026-05-13 ·</strong> added <a href="#">a note on commonplace books</a></li>
+        <li><strong>2026-05-09 ·</strong> updated the <a href="#">links page</a></li>
+        <li><strong>2026-05-02 ·</strong> wrote a short piece on <a href="#">slowness</a></li>
+        <li><strong>2026-04-24 ·</strong> swapped the header font; everything looks calmer now</li>
+        <li><strong>2026-04-15 ·</strong> first entry: <a href="#">why a website at all</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>What's here</h2>
+      <div class="twocol">
+        <div class="col">
+          <h2>Notes</h2>
+          <p>Short, evergreen, often updated. Not dated, not chronological.
+             A garden of pages, each one a small idea worked on over time.</p>
+          <p><a href="#">Browse all notes →</a></p>
+        </div>
+        <div class="col">
+          <h2>Essays</h2>
+          <p>Longer pieces, dated, polished. One a month at most, sometimes
+             one a year. The shape of the year shows up here.</p>
+          <p><a href="#">Browse all essays →</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>An aside</h2>
+      <blockquote>
+        Your commonplace book is the rough draft of the rest of your life.
+        Keep it small. Keep it close. Re-read it. Add to it slowly. The
+        shape that emerges, over years, will surprise you.
+      </blockquote>
+      <p>Quotes look like the above. Italic, light tan background, a small
+         border on the left. Use them sparingly — once or twice a page is
+         enough.</p>
+    </section>
+
+    <section>
+      <h2>Reading</h2>
+      <h3>Currently</h3>
+      <p><em>The Pattern Language</em> · Christopher Alexander &nbsp;·&nbsp;
+         re-reading for the third time. The patterns about a small house
+         hold up very well; the ones about the city, less so.</p>
+      <h3>Recently</h3>
+      <ul>
+        <li><em>The Soul of a New Machine</em> · Tracy Kidder</li>
+        <li><em>Working in Public</em> · Nadia Asparouhova</li>
+        <li><em>The Glass Bead Game</em> · Hermann Hesse</li>
+        <li><em>How to Take Smart Notes</em> · Sönke Ahrens</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Why a website at all</h2>
+      <p>The open web is the last place where you can keep a piece of
+         writing visible to strangers without an algorithm deciding who
+         sees it, an advertiser deciding what's around it, or a platform
+         deciding when to delete it. That is genuinely rare. Owning a small
+         page on it — slow, plain, hand-tended — is one of the cheapest
+         and most durable acts of cultural participation a person can do.</p>
+    </section>
+
+  </div>
+  <!-- /maincont -->
+
+  <!-- ─── sidebar ─────────────────────────────────────── -->
+  <aside id="auxcont">
+
+    <h2>Now</h2>
+    <p>What you're focused on this season. One or two sentences.
+       Replace this whenever it's no longer true — that's the whole
+       point of a "now" block.</p>
+
+    <h2>Find me</h2>
+    <ul>
+      <li><a href="mailto:you@yourdomain.tld">email</a></li>
+      <li><a href="/feed.xml">rss</a></li>
+      <li><a href="https://github.com/yourname">github</a></li>
+      <li><a href="https://yourname.bsky.social">bluesky</a></li>
+    </ul>
+
+    <h2>Recent additions</h2>
+    <ul>
+      <li><a href="#">A note on commonplace books</a></li>
+      <li><a href="#">Why a website at all</a></li>
+      <li><a href="#">Slowness</a></li>
+      <li><a href="#">The pattern of the day</a></li>
+    </ul>
+
+    <p class="stamp">since 2026 · written, edited, and hand-tended by
+       a real human.</p>
+
+  </aside>
+
+</div>
+<!-- /frame -->
+
+<footer>
+  <a href="/">your common place</a> ·
+  <a href="/feed.xml">feed</a> ·
+  <a href="https://penjurupikiran.com">layout by penjuru pikiran</a>
+</footer>
+
+</body>
+</html>
