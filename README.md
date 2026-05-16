@@ -13,7 +13,7 @@ free hand-coded HTML/CSS layouts for personal sites. each one is a single HTML f
 | **springtime-wiki** | a small, slow, personal wiki — a garden of pages tended over time | [view](https://demos.penjurupikiran.com/springtime-wiki/) | [/springtime-wiki](./springtime-wiki/) |
 | **commonplace** | a small notebook on the open web — fixed-width, two-column, pale sage + deep burgundy | [view](https://demos.penjurupikiran.com/commonplace/) | [/commonplace](./commonplace/) |
 | **broadsheet** | a writer's personal-broadsheet — masthead, marquee, two-column nav, parchment + deep ink + rust | [view](https://demos.penjurupikiran.com/broadsheet/) | [/broadsheet](./broadsheet/) |
-| **risogram** | a four-tile portfolio with riso-print palette — plum, peach, mustard, mint on cream | [view](https://demos.penjurupikiran.com/risogram/) | [/risogram](./risogram/) |
+| **risogram** | a portfolio with a fixed left-rail of four illustrated tiles — riso-print palette (plum, peach, mustard, mint on cream) | [view](https://demos.penjurupikiran.com/risogram/) | [/risogram](./risogram/) |
 
 ---
 

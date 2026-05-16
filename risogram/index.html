@@ -4,41 +4,47 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>portomfolio — Tom Foolery, graphic designer</title>
-<meta name="description" content="A four-tile portfolio layout with a riso-print palette: plum, peach, mustard, mint on cream. Big illustrated tiles as nav, no build step, system fonts only.">
+<meta name="description" content="A left-rail portfolio layout with a riso-print palette: plum, peach, mustard, mint on cream. Four illustrated tiles stacked in a fixed sidebar, scrollable main content beside.">
 <style>
-  /* RISOGRAM — a four-tile portfolio layout in the riso-print mode.
+  /* RISOGRAM — a portfolio layout with a fixed left-rail of illustrated tiles.
    *
-   * The page is a single grid of four big square tiles, each a different
-   * riso-pull color, each carrying a hand-drawn SVG icon and a label.
-   * Below the tiles, a small "currently" block and a footer.
+   * Desktop: a 25vh-wide sidebar pinned to the left, containing 4 square
+   * tiles stacked vertically (each tile = 1/4 of viewport height). Main
+   * content scrolls in the right column. Footer at the bottom of the
+   * main column only (sidebar spans full height).
+   *
+   * Mobile: sidebar collapses to a horizontal top strip with the 4 tiles
+   * side by side. Main content below.
    *
    * Five working colors:
-   *   --paper    cream — page background
+   *   --paper    cream — main background
    *   --ink      deep purple-black — body text
-   *   --plum     tile 1 (studio)
-   *   --peach    tile 2 (work)
-   *   --mustard  tile 3 (play)
-   *   --mint     tile 4 (hello)
+   *   --plum     tile 1 (Studio)
+   *   --peach    tile 2 (Work)
+   *   --mustard  tile 3 (Play)
+   *   --mint     tile 4 (Hello)
    *
-   * No web fonts. System sans for everything (a humanist sans stack).
+   * No web fonts. System sans for everything.
    */
   :root {
-    --paper:        #f7f1e3;   /* warm bone — page background */
-    --paper-dim:    #ede5cf;   /* slightly darker chrome */
-    --ink:          #1a0d22;   /* deep purple-black — text */
-    --ink-soft:     #5a4860;   /* faded plum-gray — meta */
-    --rule:         #c8b9a0;   /* dusty hairline */
+    --paper:        #f7f1e3;
+    --paper-dim:    #ede5cf;
+    --ink:          #1a0d22;
+    --ink-soft:     #5a4860;
+    --rule:         #c8b9a0;
 
-    --plum:         #6b3e7e;   /* tile 1 (Studio) */
+    --plum:         #6b3e7e;
     --plum-deep:    #4a2858;
-    --peach:        #f0a387;   /* tile 2 (Work) */
+    --peach:        #f0a387;
     --peach-deep:   #c66a4d;
-    --mustard:      #f0c14a;   /* tile 3 (Play) */
+    --mustard:      #f0c14a;
     --mustard-deep: #b88820;
-    --mint:         #b8d96e;   /* tile 4 (Hello) */
+    --mint:         #b8d96e;
     --mint-deep:    #6e8a3a;
 
     --sans:         'Avenir Next', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+
+    --rail-w:       25vh;          /* sidebar width on desktop (==25% viewport HEIGHT, so each square tile = 25vh tall) */
   }
 
   * { box-sizing: border-box; }
@@ -49,121 +55,229 @@
     color: var(--ink);
     font-family: var(--sans);
     font-size: 16px;
-    line-height: 1.5;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    line-height: 1.55;
   }
 
-  /* ─── header / brand ───────────────────────────────── */
-  .brand {
-    padding: 28px 32px;
-    border-bottom: 1px solid var(--rule);
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
-  .brand__name {
-    font-weight: 800;
-    font-size: 28px;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-    margin: 0;
-  }
-  .brand__name a {
-    color: inherit;
-    text-decoration: none;
-  }
-  .brand__name .dot {
-    color: var(--peach-deep);
-    margin-left: 1px;
-  }
-  .brand__byline {
-    font-size: 14px;
-    color: var(--ink-soft);
-    font-style: italic;
-    letter-spacing: 0.01em;
-  }
-  .brand__contact {
-    font-size: 13px;
-    color: var(--ink);
-    text-decoration: underline;
-    text-decoration-thickness: 0.5px;
-    text-underline-offset: 3px;
-    letter-spacing: 0.02em;
-  }
-  .brand__contact:hover { color: var(--peach-deep); }
-
-  /* ─── tile grid (the main nav) ────────────────────── */
-  main {
-    flex: 1;
-    padding: 48px 32px;
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-  }
-
-  .tiles {
+  /* ─── app shell: sidebar + main + footer in a 2-col grid ─── */
+  .app {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin-bottom: 56px;
+    grid-template-areas:
+      "banner main"
+      "banner footer";
+    grid-template-columns: var(--rail-w) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) minmax(0, auto);
+    min-height: 100vh;
   }
+
+  /* ─── sidebar (fixed, full-height) ─── */
+  .app__banner {
+    grid-area: banner;
+    position: fixed;
+    top: 0; left: 0;
+    width: var(--rail-w);
+    height: 100vh;
+    background: var(--ink);
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+  }
+  .app__nav {
+    flex: 1;
+    display: flex;
+  }
+  .app__tabs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: grid;
+    grid-template-rows: repeat(4, 1fr);   /* 4 tiles, each 25vh tall (since parent is 100vh) */
+  }
+  .app__tabs li { display: flex; }   /* let the <a> fill the cell */
+
+  /* ─── tile (each item in the sidebar) ─── */
   .tile {
+    flex: 1;
+    width: 100%;
     aspect-ratio: 1;
-    border-radius: 10px;
-    padding: 22px;
-    text-decoration: none;
-    color: inherit;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: inherit;
     position: relative;
     overflow: hidden;
-    transition: transform 180ms ease, box-shadow 180ms ease;
+    transition: transform 200ms ease, filter 200ms ease;
   }
   .tile:hover {
-    transform: translateY(-3px) rotate(-0.4deg);
-    box-shadow: 0 12px 28px rgba(26, 13, 34, 0.15);
+    transform: scale(1.02);
+    filter: brightness(1.05);
+    z-index: 1;
   }
-  .tile:active { transform: translateY(0); }
+  .tile[aria-current="page"]::after {
+    /* small triangle indicator on the right side, pointing into main */
+    content: "";
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 10px solid transparent;
+    border-left-color: var(--paper);
+  }
 
-  .tile--plum    { background: var(--plum);    color: var(--paper); }
-  .tile--peach   { background: var(--peach);   color: var(--ink); }
-  .tile--mustard { background: var(--mustard); color: var(--ink); }
-  .tile--mint    { background: var(--mint);    color: var(--ink); }
+  .tile--studio  { background: var(--plum);    color: var(--paper); }
+  .tile--work    { background: var(--peach);   color: var(--ink); }
+  .tile--play    { background: var(--mustard); color: var(--ink); }
+  .tile--hello   { background: var(--mint);    color: var(--ink); }
 
   .tile__icon {
-    width: 90px;
-    height: 90px;
+    width: 50%;
+    max-width: 96px;
+    height: auto;
     align-self: flex-end;
-    flex-shrink: 0;
   }
   .tile__label {
     font-weight: 800;
-    font-size: 22px;
+    font-size: clamp(15px, 1.9vh, 22px);
     letter-spacing: -0.01em;
+    line-height: 1.05;
   }
   .tile__caption {
     display: block;
     font-weight: 400;
     font-style: italic;
-    font-size: 13px;
+    font-size: clamp(11px, 1.3vh, 13px);
     margin-top: 2px;
-    opacity: 0.78;
+    opacity: 0.8;
   }
 
-  /* ─── currently block ─────────────────────────────── */
-  .currently {
+  /* ─── main content area ─── */
+  .app__main {
+    grid-area: main;
+    padding: 56px clamp(20px, 5vw, 72px) 48px;
+    max-width: 880px;
+  }
+  .brand {
+    margin-bottom: 56px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .brand__name {
+    font-weight: 800;
+    font-size: clamp(28px, 3.6vw, 42px);
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+  .brand__name a { color: inherit; text-decoration: none; }
+  .brand__name .dot { color: var(--peach-deep); }
+  .brand__byline {
+    font-size: 15px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .brand__contact {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 0.5px;
+    text-underline-offset: 3px;
+  }
+  .brand__contact:hover { color: var(--peach-deep); }
+
+  /* ─── hero / intro ─── */
+  .intro {
+    margin-bottom: 64px;
+  }
+  .intro__greeting {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-soft);
+    margin: 0 0 16px 0;
+    font-weight: 700;
+  }
+  .intro__greeting .ribbon {
+    background: var(--mustard);
+    color: var(--ink);
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-right: 6px;
+  }
+  .intro__lede {
+    font-size: clamp(22px, 2.6vw, 30px);
+    line-height: 1.3;
+    margin: 0 0 24px 0;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .intro__lede em { color: var(--plum); font-style: italic; }
+  .intro__body { font-size: 17px; line-height: 1.6; margin: 0 0 16px 0; }
+  .intro__body a { color: var(--plum); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 0.5px; }
+  .intro__body a:hover { color: var(--peach-deep); }
+
+  /* ─── featured work strip ─── */
+  .featured {
+    margin-bottom: 64px;
     border-top: 1px solid var(--rule);
     padding-top: 32px;
+  }
+  .featured__label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin: 0 0 18px 0;
+  }
+  .featured__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .feature-card {
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 20px 22px;
+    background: var(--paper-dim);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 180ms ease, border-color 180ms ease;
+  }
+  .feature-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--plum);
+  }
+  .feature-card__chip {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-bottom: 10px;
+  }
+  .feature-card--plum    .feature-card__chip { background: var(--plum);    color: var(--paper); }
+  .feature-card--mint    .feature-card__chip { background: var(--mint);    color: var(--ink); }
+  .feature-card--peach   .feature-card__chip { background: var(--peach);   color: var(--ink); }
+  .feature-card--mustard .feature-card__chip { background: var(--mustard); color: var(--ink); }
+  .feature-card__title  { margin: 0 0 4px 0; font-weight: 700; font-size: 18px; }
+  .feature-card__desc   { margin: 0; font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
+
+  /* ─── currently / now block ─── */
+  .currently {
+    border-top: 1px solid var(--rule);
+    padding-top: 28px;
     display: grid;
     grid-template-columns: 140px 1fr;
-    gap: 28px;
-    align-items: start;
-    max-width: 880px;
+    gap: 24px;
+    margin-bottom: 16px;
   }
   .currently__label {
     font-size: 11px;
@@ -171,24 +285,20 @@
     letter-spacing: 0.18em;
     color: var(--ink-soft);
     font-weight: 700;
-  }
-  .currently__copy {
-    font-size: 17px;
-    line-height: 1.55;
-    color: var(--ink);
     margin: 0;
   }
-  .currently__copy a {
-    color: var(--plum);
-    text-decoration: underline;
-    text-decoration-thickness: 0.5px;
-    text-underline-offset: 3px;
+  .currently__copy {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
   }
-  .currently__copy a:hover { color: var(--peach-deep); }
+  .currently__copy a { color: var(--plum); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 0.5px; }
 
-  /* ─── footer ──────────────────────────────────────── */
-  footer {
-    padding: 24px 32px;
+  /* ─── footer ─── */
+  .app__footer {
+    grid-area: footer;
+    padding: 20px clamp(20px, 5vw, 72px);
     border-top: 1px solid var(--rule);
     background: var(--paper-dim);
     font-size: 12px;
@@ -200,134 +310,192 @@
     gap: 16px;
     letter-spacing: 0.04em;
   }
-  footer a {
+  .app__footer a {
     color: var(--ink);
     text-decoration: underline;
     text-decoration-thickness: 0.5px;
     text-underline-offset: 3px;
   }
-  footer a:hover { color: var(--plum); }
+  .app__footer a:hover { color: var(--plum); }
 
-  /* ─── responsive ──────────────────────────────────── */
-  @media (max-width: 880px) {
-    .tiles { grid-template-columns: repeat(2, 1fr); }
-    .currently { grid-template-columns: 1fr; gap: 12px; }
-  }
-  @media (max-width: 480px) {
-    main { padding: 32px 18px; }
-    .brand { padding: 20px 18px; }
-    footer { padding: 20px 18px; }
-    .tile { padding: 16px; border-radius: 8px; }
-    .tile__icon { width: 60px; height: 60px; }
-    .tile__label { font-size: 18px; }
-    .brand__name { font-size: 22px; }
+  /* ─── mobile (portrait): tiles across the top instead of left rail ─── */
+  @media (orientation: portrait), (max-width: 760px) {
+    .app {
+      grid-template-areas:
+        "banner"
+        "main"
+        "footer";
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: auto minmax(0, 1fr) auto;
+    }
+    .app__banner {
+      position: static;
+      width: 100%;
+      height: auto;
+    }
+    .app__tabs {
+      grid-template-rows: none;
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .tile { padding: 10px; }
+    .tile__icon { width: 40%; max-width: 56px; }
+    .tile__caption { display: none; }
+    .tile[aria-current="page"]::after {
+      top: auto;
+      bottom: -10px;
+      right: 50%;
+      transform: translateX(50%);
+      border: 10px solid transparent;
+      border-top-color: var(--paper);
+      border-left-color: transparent;
+    }
+    .app__main { padding: 32px 22px; max-width: none; }
+    .app__footer { padding: 18px 22px; }
+    .featured__grid { grid-template-columns: 1fr; }
+    .currently { grid-template-columns: 1fr; gap: 8px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .tile { transition: none; }
-    .tile:hover { transform: none; }
+    .tile, .feature-card { transition: none; }
+    .tile:hover, .feature-card:hover { transform: none; }
   }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="brand">
-    <p class="brand__name"><a href="/">portomfolio<span class="dot">.</span></a></p>
-    <span class="brand__byline">Tom Foolery — graphic designer, occasional printmaker</span>
-    <a href="mailto:tom@tomfoolery.test" class="brand__contact">tom@tomfoolery.test</a>
-  </div>
-</header>
+<div class="app">
 
-<main>
+  <!-- ─── left rail: 4 illustrated tiles ─── -->
+  <header class="app__banner">
+    <nav class="app__nav" aria-label="Sections">
+      <ul class="app__tabs">
 
-  <!-- ─── 4-tile nav grid ─── -->
-  <nav class="tiles" aria-label="Sections">
+        <li>
+          <a class="tile tile--studio" href="/studio/" aria-current="page" aria-label="Studio — about Tom and the workspace">
+            <svg class="tile__icon" viewBox="0 0 100 100" role="img" aria-hidden="true">
+              <circle cx="62" cy="38" r="22" fill="#f0c14a" opacity="0.55"/>
+              <path d="M40 22 L74 22 L66 42 L48 42 Z" fill="#f7f1e3"/>
+              <rect x="55" y="42" width="4" height="36" fill="#f7f1e3"/>
+              <rect x="34" y="78" width="46" height="6" rx="2" fill="#f7f1e3"/>
+              <circle cx="57" cy="22" r="3" fill="#f0a387"/>
+            </svg>
+            <span class="tile__label">
+              Studio
+              <span class="tile__caption">about + the workspace</span>
+            </span>
+          </a>
+        </li>
 
-    <!-- Studio (about) — plum -->
-    <a class="tile tile--plum" href="/studio/" aria-label="Studio — about Tom and the studio">
-      <svg class="tile__icon" viewBox="0 0 100 100" role="img" aria-hidden="true">
-        <!-- desk lamp: shade + arm + base + warm glow -->
-        <circle cx="62" cy="38" r="22" fill="#f0c14a" opacity="0.55"/>
-        <path d="M40 22 L74 22 L66 42 L48 42 Z" fill="#f7f1e3"/>
-        <rect x="55" y="42" width="4" height="36" fill="#f7f1e3"/>
-        <rect x="34" y="78" width="46" height="6" rx="2" fill="#f7f1e3"/>
-        <circle cx="57" cy="22" r="3" fill="#f0a387"/>
-      </svg>
-      <span class="tile__label">
-        Studio
-        <span class="tile__caption">about + the workspace</span>
-      </span>
-    </a>
+        <li>
+          <a class="tile tile--work" href="/work/" aria-label="Work — case studies and portfolio">
+            <svg class="tile__icon" viewBox="0 0 100 100" role="img" aria-hidden="true">
+              <rect x="22" y="32" width="50" height="58" rx="3" fill="#1a0d22" transform="rotate(-6 47 61)"/>
+              <rect x="28" y="26" width="50" height="58" rx="3" fill="#f7f1e3" transform="rotate(2 53 55)"/>
+              <rect x="36" y="20" width="50" height="58" rx="3" fill="#1a0d22"/>
+              <path d="M76 20 L86 20 L86 30 Z" fill="#f0c14a"/>
+              <line x1="44" y1="36" x2="78" y2="36" stroke="#f7f1e3" stroke-width="2"/>
+              <line x1="44" y1="46" x2="72" y2="46" stroke="#f7f1e3" stroke-width="2"/>
+              <line x1="44" y1="56" x2="78" y2="56" stroke="#f7f1e3" stroke-width="2"/>
+            </svg>
+            <span class="tile__label">
+              Work
+              <span class="tile__caption">case studies + selected projects</span>
+            </span>
+          </a>
+        </li>
 
-    <!-- Work — peach -->
-    <a class="tile tile--peach" href="/work/" aria-label="Work — case studies and portfolio">
-      <svg class="tile__icon" viewBox="0 0 100 100" role="img" aria-hidden="true">
-        <!-- portfolio: 3 stacked sheets, slight rotation, top one has accent corner -->
-        <rect x="22" y="32" width="50" height="58" rx="3" fill="#1a0d22" transform="rotate(-6 47 61)"/>
-        <rect x="28" y="26" width="50" height="58" rx="3" fill="#f7f1e3" transform="rotate(2 53 55)"/>
-        <rect x="36" y="20" width="50" height="58" rx="3" fill="#1a0d22"/>
-        <path d="M76 20 L86 20 L86 30 Z" fill="#f0c14a"/>
-        <line x1="44" y1="36" x2="78" y2="36" stroke="#f7f1e3" stroke-width="2"/>
-        <line x1="44" y1="46" x2="72" y2="46" stroke="#f7f1e3" stroke-width="2"/>
-        <line x1="44" y1="56" x2="78" y2="56" stroke="#f7f1e3" stroke-width="2"/>
-      </svg>
-      <span class="tile__label">
-        Work
-        <span class="tile__caption">case studies + selected projects</span>
-      </span>
-    </a>
+        <li>
+          <a class="tile tile--play" href="/play/" aria-label="Play — sketches, side projects, experiments">
+            <svg class="tile__icon" viewBox="0 0 100 100" role="img" aria-hidden="true">
+              <path d="M14 70 L88 18 L60 86 L48 56 Z" fill="#1a0d22"/>
+              <path d="M48 56 L88 18 L60 56 Z" fill="#6b3e7e"/>
+              <path d="M14 70 L48 56" stroke="#1a0d22" stroke-width="1.5" fill="none"/>
+              <circle cx="14" cy="70" r="2.5" fill="#f0a387"/>
+              <circle cx="9"  cy="80" r="2"   fill="#f0a387"/>
+              <circle cx="6"  cy="88" r="1.5" fill="#f0a387"/>
+            </svg>
+            <span class="tile__label">
+              Play
+              <span class="tile__caption">sketches + experiments</span>
+            </span>
+          </a>
+        </li>
 
-    <!-- Play — mustard -->
-    <a class="tile tile--mustard" href="/play/" aria-label="Play — sketches, side projects, experiments">
-      <svg class="tile__icon" viewBox="0 0 100 100" role="img" aria-hidden="true">
-        <!-- paper airplane: triangle + center fold + dotted trail -->
-        <path d="M14 70 L88 18 L60 86 L48 56 Z" fill="#1a0d22"/>
-        <path d="M48 56 L88 18 L60 56 Z" fill="#6b3e7e"/>
-        <path d="M14 70 L48 56" stroke="#1a0d22" stroke-width="1.5" fill="none"/>
-        <circle cx="14" cy="70" r="2.5" fill="#f0a387"/>
-        <circle cx="9"  cy="80" r="2"   fill="#f0a387"/>
-        <circle cx="6"  cy="88" r="1.5" fill="#f0a387"/>
-      </svg>
-      <span class="tile__label">
-        Play
-        <span class="tile__caption">sketches + experiments</span>
-      </span>
-    </a>
+        <li>
+          <a class="tile tile--hello" href="/hello/" aria-label="Hello — get in touch">
+            <svg class="tile__icon" viewBox="0 0 100 100" role="img" aria-hidden="true">
+              <path d="M16 22 L84 22 Q92 22 92 30 L92 60 Q92 68 84 68 L42 68 L26 84 L30 68 L16 68 Q8 68 8 60 L8 30 Q8 22 16 22 Z" fill="#1a0d22"/>
+              <circle cx="36" cy="44" r="4" fill="#f7f1e3"/>
+              <circle cx="50" cy="44" r="4" fill="#f7f1e3"/>
+              <circle cx="64" cy="44" r="4" fill="#f0a387"/>
+            </svg>
+            <span class="tile__label">
+              Hello
+              <span class="tile__caption">say hi, ask anything</span>
+            </span>
+          </a>
+        </li>
 
-    <!-- Hello — mint -->
-    <a class="tile tile--mint" href="/hello/" aria-label="Hello — get in touch">
-      <svg class="tile__icon" viewBox="0 0 100 100" role="img" aria-hidden="true">
-        <!-- speech bubble with three dots and a playful tail -->
-        <path d="M16 22 L84 22 Q92 22 92 30 L92 60 Q92 68 84 68 L42 68 L26 84 L30 68 L16 68 Q8 68 8 60 L8 30 Q8 22 16 22 Z" fill="#1a0d22"/>
-        <circle cx="36" cy="44" r="4" fill="#f7f1e3"/>
-        <circle cx="50" cy="44" r="4" fill="#f7f1e3"/>
-        <circle cx="64" cy="44" r="4" fill="#f0a387"/>
-      </svg>
-      <span class="tile__label">
-        Hello
-        <span class="tile__caption">say hi, ask anything</span>
-      </span>
-    </a>
+      </ul>
+    </nav>
+  </header>
 
-  </nav>
+  <!-- ─── main content (scrolls in right column) ─── -->
+  <main class="app__main">
 
-  <!-- ─── currently block ─── -->
-  <section class="currently">
-    <p class="currently__label">Currently</p>
-    <p class="currently__copy">Working on a poster series for a small jazz festival, finishing a hand-bound zine of <a href="/play/marginalia/">marginalia from old type specimens</a>, and slowly redrawing the studio's site (the one you're on). Open to small commissions through the rest of the season.</p>
-  </section>
+    <div class="brand">
+      <p class="brand__name"><a href="/">portomfolio<span class="dot">.</span></a></p>
+      <span class="brand__byline">Tom Foolery — graphic designer, occasional printmaker</span>
+      <a href="mailto:tom@tomfoolery.test" class="brand__contact">tom@tomfoolery.test</a>
+    </div>
 
-</main>
+    <section class="intro">
+      <p class="intro__greeting"><span class="ribbon">studio</span> the welcome screen</p>
+      <p class="intro__lede">A one-person design studio for <em>posters, books, and the occasional small website</em> — based wherever the printer is open.</p>
+      <p class="intro__body">Tom is a graphic designer who works mostly with cultural and editorial clients. The studio runs at the pace of a small print shop: a handful of projects a year, each one carried from sketch through proof through final delivery by one set of hands.</p>
+      <p class="intro__body">For new work, a brief letter at <a href="mailto:tom@tomfoolery.test">tom@tomfoolery.test</a> is the right entrypoint. For everything else, the four tiles to the left are the whole site.</p>
+    </section>
 
-<footer>
-  <div>
-    © Tom Foolery — all sketches, none of the truth. <a href="/colophon/">colophon</a>.
-  </div>
-  <div>
-    <a href="https://penjurupikiran.com">layout by penjuru pikiran</a>
-  </div>
-</footer>
+    <section class="featured">
+      <p class="featured__label">Selected work, lately</p>
+      <div class="featured__grid">
+        <a class="feature-card feature-card--mint" href="/work/cassettes-zine/">
+          <span class="feature-card__chip">zine</span>
+          <h3 class="feature-card__title">Twelve cassettes for thirteen nights</h3>
+          <p class="feature-card__desc">a hand-bound mixtape catalogue, riso-printed in four passes.</p>
+        </a>
+        <a class="feature-card feature-card--peach" href="/work/jazz-poster-series/">
+          <span class="feature-card__chip">poster</span>
+          <h3 class="feature-card__title">small jazz festival, summer</h3>
+          <p class="feature-card__desc">a 12-poster identity for a neighbourhood festival; mustard and ink only.</p>
+        </a>
+        <a class="feature-card feature-card--plum" href="/work/atlas-book/">
+          <span class="feature-card__chip">book</span>
+          <h3 class="feature-card__title">An atlas of nothing in particular</h3>
+          <p class="feature-card__desc">a 96-page softcover; eight maps of imaginary places.</p>
+        </a>
+        <a class="feature-card feature-card--mustard" href="/work/cafe-identity/">
+          <span class="feature-card__chip">identity</span>
+          <h3 class="feature-card__title">a café called Roundabout</h3>
+          <p class="feature-card__desc">wordmark, menus, signage, and a small newsprint placemat.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="currently">
+      <p class="currently__label">Currently</p>
+      <p class="currently__copy">Finishing a hand-bound zine of <a href="/play/marginalia/">marginalia from old type specimens</a>, and slowly redrawing the studio's site (the one you're on). Open to small commissions through the rest of the season.</p>
+    </section>
+
+  </main>
+
+  <!-- ─── footer ─── -->
+  <footer class="app__footer">
+    <div>© Tom Foolery — all sketches, none of the truth. <a href="/colophon/">colophon</a>.</div>
+    <div><a href="https://penjurupikiran.com">layout by penjuru pikiran</a></div>
+  </footer>
+
+</div>
 
 </body>
 </html>
