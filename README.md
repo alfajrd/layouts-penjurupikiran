@@ -11,7 +11,7 @@ free hand-coded HTML/CSS layouts for personal sites. each one is a single HTML f
 | layout | description | live | source |
 |---|---|---|---|
 | **springtime-wiki** | a small, slow, personal wiki — a garden of pages tended over time | [view](https://demos.penjurupikiran.com/springtime-wiki/) | [/springtime-wiki](./springtime-wiki/) |
-| **commonplace** | a small notebook on the open web — fixed-width, two-column, warm cream + deep burgundy | [view](https://demos.penjurupikiran.com/commonplace/) | [/commonplace](./commonplace/) |
+| **commonplace** | a small notebook on the open web — fixed-width, two-column, pale sage + deep burgundy | [view](https://demos.penjurupikiran.com/commonplace/) | [/commonplace](./commonplace/) |
 
 ---
 

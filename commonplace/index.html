@@ -23,20 +23,20 @@
    * on #maincont and #auxcont.
    */
   :root {
-    --paper:       #f6ecd2;   /* warm cream, the page itself */
-    --paper-dim:   #ece2c0;   /* slightly darker chrome behind the page */
-    --ink:         #2a0e14;   /* very dark burgundy-black — body text */
-    --ink-soft:    #6b3038;   /* muted burgundy-brown for meta lines */
-    --rule:        #b8a682;   /* dusty hairline */
-    --bar:         #e8d4b6;   /* creamy tan nav strip */
-    --bar-edge:    #b8965e;   /* nav border */
-    --plot:        #6b1e2b;   /* BURGUNDY sidebar — the headline color */
+    --paper:       #e8ede2;   /* pale sage — the page itself */
+    --paper-dim:   #d6e0cf;   /* deeper sage chrome behind the page */
+    --ink:         #1a2a1e;   /* deep forest — body text */
+    --ink-soft:    #4a6050;   /* faded sage-gray for meta lines */
+    --rule:        #a8b89c;   /* sage hairline */
+    --bar:         #d1ddc8;   /* deeper sage nav strip */
+    --bar-edge:    #8aa080;   /* sage nav border */
+    --plot:        #6b1e2b;   /* BURGUNDY sidebar — the warm anchor */
     --plot-edge:   #4a0e1c;   /* deeper burgundy border */
-    --plot-soft:   #f0d4d8;   /* pale dusty rose hover wash */
-    --link:        #8b2a36;   /* medium burgundy for body links */
-    --link-hover:  #5a121d;   /* darker on hover */
-    --quote:       #f4dfd9;   /* pale cream-rose blockquote bg */
-    --brass:       #b88542;   /* small accent: date stamps, bullets */
+    --plot-soft:   #f0d8db;   /* pale dusty rose hover wash */
+    --link:        #6b1e2b;   /* full burgundy for body links */
+    --link-hover:  #4a0e1c;   /* darker on hover */
+    --quote:       #f0e0e2;   /* pale dusty rose blockquote bg (warm pop on sage) */
+    --brass:       #b88542;   /* gold accent: date stamps, bullets */
   }
 
   * { box-sizing: border-box; }
@@ -238,7 +238,7 @@
   #auxcont h2:not(:first-child) {
     margin-top: 18px;
     padding-top: 14px;
-    border-top: 1px solid rgba(245, 236, 214, 0.3);
+    border-top: 1px solid rgba(232, 237, 226, 0.3);
   }
   #auxcont p,
   #auxcont ul {
@@ -257,7 +257,7 @@
   }
   #auxcont li::before {
     content: "› ";
-    color: rgba(245, 236, 214, 0.75);
+    color: rgba(232, 237, 226, 0.75);
   }
   #auxcont a {
     color: var(--paper);
@@ -266,14 +266,14 @@
     text-underline-offset: 2px;
   }
   #auxcont a:hover {
-    background: rgba(245, 236, 214, 0.18);
+    background: rgba(232, 237, 226, 0.18);
   }
   #auxcont .stamp {
     margin-top: 16px;
     padding-top: 12px;
-    border-top: 1px solid rgba(245, 236, 214, 0.3);
+    border-top: 1px solid rgba(232, 237, 226, 0.3);
     font-size: 11px;
-    color: rgba(245, 236, 214, 0.85);
+    color: rgba(232, 237, 226, 0.85);
     line-height: 1.45;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
     letter-spacing: 0.02em;
