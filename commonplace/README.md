@@ -1,6 +1,6 @@
 # commonplace
 
-a small notebook on the open web — fixed-width, two-column, warm-cream paper with a terracotta sidebar. for personal sites in the slow / commonplace-book mode: short notes in the middle, a "now" block + links on the side, a chronological log down the page.
+a small notebook on the open web — fixed-width, two-column, warm-cream paper with a deep burgundy sidebar and brass accents. for personal sites in the slow / commonplace-book mode: short notes in the middle, a "now" block + links on the side, a chronological log down the page.
 
 **[view live →](https://demos.penjurupikiran.com/commonplace/)** · _(once you've published a demo)_
 

@@ -23,18 +23,20 @@
    * on #maincont and #auxcont.
    */
   :root {
-    --paper:       #f5ecd6;   /* warm cream, the page itself */
-    --paper-dim:   #ede2c4;   /* slightly darker chrome behind the page */
-    --ink:         #2a1f12;   /* dark warm brown — body text */
-    --ink-soft:    #6b5a3e;   /* muted brown for meta lines */
-    --rule:        #b9a984;   /* dusty hairline */
-    --bar:         #ddd0a8;   /* nav strip */
-    --bar-edge:    #a89668;   /* nav border */
-    --plot:        #c87850;   /* terracotta sidebar */
-    --plot-edge:   #9c5a3a;   /* sidebar border */
-    --plot-soft:   #ebd6c5;   /* hover wash */
-    --quote:       #f0e3c0;   /* blockquote bg */
-    --moss:        #6b7a3e;   /* small accent for date stamps + bullets */
+    --paper:       #f6ecd2;   /* warm cream, the page itself */
+    --paper-dim:   #ece2c0;   /* slightly darker chrome behind the page */
+    --ink:         #2a0e14;   /* very dark burgundy-black — body text */
+    --ink-soft:    #6b3038;   /* muted burgundy-brown for meta lines */
+    --rule:        #b8a682;   /* dusty hairline */
+    --bar:         #e8d4b6;   /* creamy tan nav strip */
+    --bar-edge:    #b8965e;   /* nav border */
+    --plot:        #6b1e2b;   /* BURGUNDY sidebar — the headline color */
+    --plot-edge:   #4a0e1c;   /* deeper burgundy border */
+    --plot-soft:   #f0d4d8;   /* pale dusty rose hover wash */
+    --link:        #8b2a36;   /* medium burgundy for body links */
+    --link-hover:  #5a121d;   /* darker on hover */
+    --quote:       #f4dfd9;   /* pale cream-rose blockquote bg */
+    --brass:       #b88542;   /* small accent: date stamps, bullets */
   }
 
   * { box-sizing: border-box; }
@@ -168,12 +170,13 @@
     margin-bottom: 4px;
   }
   #maincont a {
-    color: var(--plot-edge);
+    color: var(--link);
     text-decoration: underline;
     text-decoration-thickness: 0.5px;
     text-underline-offset: 2px;
   }
   #maincont a:hover {
+    color: var(--link-hover);
     background: var(--plot-soft);
     text-decoration: none;
   }
@@ -186,7 +189,7 @@
     border-left: 3px solid var(--bar-edge);
   }
   #maincont .meta {
-    color: var(--moss);
+    color: var(--brass);
     font-size: 12px;
     margin: -6px 0 18px 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
